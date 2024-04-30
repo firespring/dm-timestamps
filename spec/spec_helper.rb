@@ -6,6 +6,6 @@ require 'dm-migrations'
 
 DataMapper::Spec.setup
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.extend(DataMapper::Spec::Adapters::Helpers)
 end

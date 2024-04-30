@@ -127,7 +127,7 @@ describe 'DataMapper::Timestamp' do
         end
       end
 
-      it_should_behave_like "Timestamp (shared behavior)"
+      it_behaves_like 'Timestamp (shared behavior)'
     end
 
     describe "implicit property declaration" do
@@ -145,7 +145,7 @@ describe 'DataMapper::Timestamp' do
         end
       end
 
-      it_should_behave_like "Timestamp (shared behavior)"
+      it_behaves_like 'Timestamp (shared behavior)'
     end
 
     describe "timestamps helper" do
