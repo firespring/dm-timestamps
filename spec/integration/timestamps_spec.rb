@@ -3,21 +3,21 @@ require_relative '../spec_helper'
 describe 'DataMapper::Timestamp' do
   supported_by :all do
 
-    describe 'Timestamp (shared behavior)', shared: true do
-      it "should not set the created_at/on fields if they're already set" do
+    shared_examples 'Timestamp (shared behavior)' do
+      it "does not set the created_at/on fields if they're already set" do
         green_smoothie = GreenSmoothie.new(:name => 'Banana')
         time = (DateTime.now - 100)
         date = Date.new(time.year,time.month,time.day)
         green_smoothie.created_at = time
         green_smoothie.created_on = date
         green_smoothie.save
-        expect(green_smoothie.created_at).to == time
-        expect(green_smoothie.created_on).to == date
+        expect(green_smoothie.created_at).to eq time
+        expect(green_smoothie.created_on).to eq date
         expect(green_smoothie.created_at).to be_a_kind_of(DateTime)
         expect(green_smoothie.created_on).to be_a_kind_of(Date)
       end
 
-      it 'should set the created_at/on fields on creation' do
+      it 'sets the created_at/on fields on creation' do
         green_smoothie = GreenSmoothie.new(:name => 'Banana')
         expect(green_smoothie.created_at).to be_nil
         expect(green_smoothie.created_on).to be_nil
@@ -26,7 +26,7 @@ describe 'DataMapper::Timestamp' do
         expect(green_smoothie.created_on).to be_a_kind_of(Date)
       end
 
-      it 'should not alter the create_at/on fields on model updates' do
+      it 'does not alter the create_at/on fields on model updates' do
         green_smoothie = GreenSmoothie.new(:id => 2, :name => 'Berry')
         expect(green_smoothie.created_at).to be_nil
         expect(green_smoothie.created_on).to be_nil
@@ -39,7 +39,7 @@ describe 'DataMapper::Timestamp' do
         expect(green_smoothie.created_on).to eql(original_created_on)
       end
 
-      it 'should set the updated_at/on fields on creation and on update' do
+      it 'sets the updated_at/on fields on creation and on update' do
         green_smoothie = GreenSmoothie.new(:name => 'Mango')
         expect(green_smoothie.updated_at).to be_nil
         expect(green_smoothie.updated_on).to be_nil
@@ -60,7 +60,7 @@ describe 'DataMapper::Timestamp' do
         expect(green_smoothie.updated_on).to eql(date_tomorrow)
       end
 
-      it 'should only set the updated_at/on fields on dirty objects' do
+      it 'only sets the updated_at/on fields on dirty objects' do
         green_smoothie = GreenSmoothie.new(:name => 'Mango')
         expect(green_smoothie.updated_at).to be_nil
         expect(green_smoothie.updated_on).to be_nil
@@ -81,7 +81,7 @@ describe 'DataMapper::Timestamp' do
       end
 
       describe '#touch' do
-        it 'should update the updated_at/on fields' do
+        it 'updates the updated_at/on fields' do
           green_smoothie = GreenSmoothie.create(:name => 'Mango')
 
           time_tomorrow = DateTime.now + 1
@@ -95,7 +95,7 @@ describe 'DataMapper::Timestamp' do
           expect(green_smoothie.updated_on).to eql(date_tomorrow)
         end
 
-        it 'should not update the created_at/on fields' do
+        it 'does not update the created_at/on fields' do
           green_smoothie = GreenSmoothie.create(:name => 'Mango')
 
           original_created_at = green_smoothie.created_at
@@ -155,11 +155,11 @@ describe 'DataMapper::Timestamp' do
           end
         end
 
-        it 'should provide #timestamps' do
+        it 'provides #timestamps' do
           expect(@klass).to respond_to(:timestamps)
         end
 
-        it 'should set the *at properties' do
+        it 'sets the *at properties' do
           @klass.timestamps :at
 
           expect(@klass.properties).to be_named(:created_at)
@@ -168,7 +168,7 @@ describe 'DataMapper::Timestamp' do
           expect(@klass.properties[:updated_at]).to be_kind_of(DataMapper::Property::DateTime)
         end
 
-        it 'should set the *on properties' do
+        it 'sets the *on properties' do
           @klass.timestamps :on
 
           expect(@klass.properties).to be_named(:created_on)
@@ -177,19 +177,19 @@ describe 'DataMapper::Timestamp' do
           expect(@klass.properties[:updated_on]).to be_kind_of(DataMapper::Property::Date)
         end
 
-        it 'should set multiple properties' do
+        it 'sets multiple properties' do
           @klass.timestamps :created_at, :updated_on
 
           expect(@klass.properties).to be_named(:created_at)
           expect(@klass.properties).to be_named(:updated_on)
         end
 
-        it 'should fail on unknown property name' do
-          lambda { @klass.timestamps :wowee }.should raise_error(DataMapper::Timestamp::InvalidTimestampName)
+        it 'fails on unknown property name' do
+          expect { @klass.timestamps :wowee }.to raise_error(DataMapper::Timestamp::InvalidTimestampName)
         end
 
-        it 'should fail on empty arguments' do
-          lambda { @klass.timestamps }.should raise_error(ArgumentError)
+        it 'fails on empty arguments' do
+          expect { @klass.timestamps }.to raise_error(ArgumentError)
         end
       end
     end
