@@ -15,6 +15,8 @@ tmtags
 
 ## Rubinius
 *.rbc
+## RubyMine
+.idea
 
 ## Rubymine
 .idea/
