@@ -1,8 +1,8 @@
 require File.expand_path('lib/data_mapper/timestamps/version', __dir__)
 
 Gem::Specification.new do |gem|
-  gem.authors     = ['Foy Savas', 'Dan Kubb']
-  gem.email       = ['dan.kubb@gmail.com']
+  gem.authors     = ['opensource_firespring']
+  gem.email       = ['opensource@firespring.com']
   gem.summary     = 'DataMapper plugin for magical timestamps'
   gem.description = 'DataMapper plugin which adds “magic” to created_at, created_on, et cetera.'
   gem.license = 'Nonstandard'
